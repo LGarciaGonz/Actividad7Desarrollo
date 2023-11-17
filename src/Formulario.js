@@ -68,30 +68,27 @@ function Formulario() {
 
 
     // CAMPO TÉRMINOS *******************************************
-    const [enteredTerminos, setEnteredTerminos] = useState('');
+    const [enteredTerminos, setEnteredTerminos] = useState(false);
     const [validateTerminos, setValidateTerminos] = useState(false);
     const [alertaTerminos, setAlertaTerminos] = useState("")
 
-    const [checked, setChecked] = useState(true)
 
-    
     function updateTerminosHandler(event) {
-        //setChecked((c) => !c);
-        console.log(checked);
+      
         setEnteredTerminos(event.target.checked);
     }
 
     const handleValidateAll = useCallback(() => {
         
         // TÉRMINOS --------------------------------------------------------------------------------------
-        if (checked === true ) { 
+        if (enteredTerminos === true) { 
             console.log('términos ok!');
-            console.log(checked);
-            setValidateTerminos(false);
+            console.log(enteredTerminos);
+            setValidateTerminos(true);
             setAlertaTerminos("")
         } else {
             setAlertaTerminos("Debe aceptar los términos y condiciones.")
-            setValidateTerminos(true);
+            setValidateTerminos(false);
             console.log('terminos NO ok!');
         }
 
@@ -162,7 +159,7 @@ function Formulario() {
         }
         
 
-    }, [enteredNombre, enteredApellido, enteredEmail, enteredSexo, enteredMensaje, checked])
+    }, [enteredNombre, enteredApellido, enteredEmail, enteredSexo, enteredMensaje, enteredTerminos])
 
     useEffect(
         function(){
@@ -192,7 +189,7 @@ function Formulario() {
                 setEnteredEmail('');
                 setEnteredSexo('');
                 setEnteredMensaje('');
-                setChecked(true);
+                setEnteredTerminos(true);
 
 
                 // Restablecer los estados de validación
@@ -201,13 +198,13 @@ function Formulario() {
                 setValidateEmail(false);
                 setValidateSexo(false);
                 setValidateMensaje(false);
-                setChecked(true);
+                setEnteredTerminos(true);
 
                 alert("FORMULARIO ENVIADO CORRECTAMENTE AL SERVIDOR")
 
             })
         } else{
-            console.log("el formulario no se ha enviado") // TODO mostrar mensaje al usuario
+            console.log("el formulario no se ha enviado") 
             alert("EL FORMULARIO NO SE HA PODIDO ENVIAR")
         }
     }
@@ -282,7 +279,7 @@ function Formulario() {
 
             <div>
                 <label>Aceptar términos y condiciones</label><span>   </span>
-                <input type='checkbox' value={checked} name="terminos" onChange={updateTerminosHandler} checked={!checked}/>
+                <input type='checkbox' value={enteredTerminos} name="terminos" onChange={updateTerminosHandler} checked={enteredTerminos}/>
                 <p className='error'>{alertaTerminos}</p>
             </div>
 
